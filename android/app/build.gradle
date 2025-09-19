@@ -1,12 +1,9 @@
 apply plugin: "com.android.application"
 
 project.ext.envConfigFiles = [
-   productiondebug: ".env.production",
-   productionrelease: ".env.production",
-   developmentrelease: ".env.development",
-   developmentdebug: ".env.development",
-   stagingrelease: ".env.staging",
-   stagingdebug: ".env.staging"
+   production: ".env.production",
+   staging: ".env.staging",
+   development: ".env.development"
 ]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
@@ -84,8 +81,6 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
-def safeEnv = project.hasProperty("env") ? project.env : [:]
-
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -96,9 +91,9 @@ android {
         applicationId "com.rnmultienv"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode Integer.valueOf(safeEnv.get("APP_VERSION_CODE", "1"))
-        versionName safeEnv.get("APP_VERSION_NAME", "1.0.0")
-        resValue "string", "app_name", safeEnv.get("APP_NAME", "RNMultiEnv")
+        versionCode Integer.valueOf(env.get("APP_VERSION_CODE"))
+        versionName env.get("APP_VERSION_NAME")
+        resValue "string", "app_name", env.get("APP_NAME")
         resValue "string", "build_config_package", "com.rnmultienv"
     }
     signingConfigs {
@@ -111,6 +106,7 @@ android {
     }
     buildTypes {
         debug {
+            debuggable true
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug', 'release']
         }
@@ -122,16 +118,18 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
-    flavorDimensions "default"
+    flavorDimensions "environment"
     productFlavors {
         production {
-            applicationId "com.rnmultienv"
+            dimension "environment"
         }
         staging {
-            applicationId "com.rnmultienv.staging"
+            dimension "environment"
+            applicationIdSuffix ".staging"
         }
         development {
-            applicationId "com.rnmultienv.development"
+            dimension "environment"
+            applicationIdSuffix ".development"
         }
     }
 }

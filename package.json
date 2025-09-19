@@ -8,12 +8,12 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "android:staging": "react-native run-android --mode stagingdebug --appId 'com.rnmultienv.staging'",
-    "android:staging:release": "react-native run-android --mode stagingrelease --appId 'com.rnmultienv.staging'",
-    "android:dev": "react-native run-android --mode developmentdebug --appId 'com.rnmultienv.development'",
-    "android:dev:release": "react-native run-android --mode developmentrelease --appId 'com.rnmultienv.development'",
-    "android:prod": "react-native run-android --mode productiondebug --appId 'com.rnmultienv'",
-    "android:prod:release": "react-native run-android --mode productionrelease --appId 'com.rnmultienv'"
+    "android:staging": "ENVFILE=.env.staging react-native run-android --mode stagingDebug --appId 'com.rnmultienv.staging'",
+    "android:staging:release": "ENVFILE=.env.staging react-native run-android --mode stagingRelease --appId 'com.rnmultienv.staging'",
+    "android:dev": "ENVFILE=.env.development react-native run-android --mode developmentDebug --appId 'com.rnmultienv.development'",
+    "android:dev:release": "ENVFILE=.env.development react-native run-android --mode developmentRelease --appId 'com.rnmultienv.development'",
+    "android:prod": "ENVFILE=.env.production react-native run-android --mode productionDebug --appId 'com.rnmultienv'",
+    "android:prod:release": "ENVFILE=.env.production react-native run-android --mode productionRelease --appId 'com.rnmultienv'"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.81.4",
